@@ -1,3 +1,4 @@
+require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 // const cors = require('cors');
@@ -8,8 +9,6 @@ const DefaultError = require('../errors/default-err');
 const ValidationError = require('../errors/validation-err');
 const AlreadyExist = require('../errors/already-exist');
 const IncorrectAuth = require('../errors/incorrect-auth');
-
-const JWT_SECRET = '12345';
 
 const getUsers = (req, res, next) => {
   User.find({})
@@ -48,6 +47,9 @@ const getUserSelf = (req, res, next) => {
     });
 };
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+// console.log('JWT ', JWT_SECRET);
+
 const login = (req, res, next) => {
   const {
     email,
@@ -70,13 +72,9 @@ const login = (req, res, next) => {
         if (isValid) {
           const token = jwt.sign({
             _id: user._id,
-          }, JWT_SECRET);
+          },
+          NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
           res
-            // .cookie('jwt', token, {
-            //   httpOnly: true,
-            //   maxAge: 3600000,
-            //   sameSite: true,
-            // })
             .status(200)
             .send({ token });
         }
