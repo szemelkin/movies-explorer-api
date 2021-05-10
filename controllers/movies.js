@@ -3,7 +3,6 @@ const NotFoundError = require('../errors/not-found-err');
 const DefaultError = require('../errors/default-err');
 const ValidationError = require('../errors/validation-err');
 
-
 const getMovies = (req, res, next) => {
   Movie.find({})
     .orFail()
@@ -63,18 +62,18 @@ function deleteMovieById(req, res, next) {
 }
 
 const createMovie = (req, res, next) => {
-  const { 
+  const {
     country,
     director,
     duration,
     year,
     description,
     image,
-    thumbnail,    
+    thumbnail,
     movieId,
     nameRU,
-    nameEN
-   } = req.body;
+    nameEN,
+  } = req.body;
   Movie.create({
     country,
     director,
@@ -82,7 +81,7 @@ const createMovie = (req, res, next) => {
     year,
     description,
     image,
-    thumbnail,    
+    thumbnail,
     movieId,
     nameRU,
     nameEN,
@@ -91,7 +90,7 @@ const createMovie = (req, res, next) => {
     res.send(movie);
   })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
       let error;
       if (err.name === 'ValidationError') {
         error = new ValidationError('Переданы некорректные данные');

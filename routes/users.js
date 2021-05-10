@@ -16,12 +16,12 @@ router.use(auth);
 router.get('/', getUsers);
 
 router.get('/me',
-celebrate({
-  query: Joi.object().keys({
-    _id: Joi.string().hex(),
+  celebrate({
+    query: Joi.object().keys({
+      _id: Joi.string().hex(),
+    }),
   }),
-}),
-getUserSelf);
+  getUserSelf);
 
 router.patch('/me',
   celebrate({

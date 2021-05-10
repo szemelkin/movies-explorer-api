@@ -1,16 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
 const cors = require('cors');
-
 const bodyParser = require('body-parser');
-
 const { errors } = require('celebrate');
-
 const routers = require('./routes');
-
 const NotFoundError = require('./errors/not-found-err');
-
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {

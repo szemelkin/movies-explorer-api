@@ -20,8 +20,8 @@ router.post('/',
       country: Joi.string().min(2).max(30),
       director: Joi.string().min(2).max(30),
       duration: Joi.number(),
-      year:Joi.number(),
-      description:Joi.string().min(2).max(1000),
+      year: Joi.number(),
+      description: Joi.string().min(2).max(1000),
       image: Joi.string(),
       thumbnail: Joi.string(),
       movieId: Joi.number(),
@@ -32,11 +32,11 @@ router.post('/',
   createMovie);
 
 router.delete('/:movieId',
-celebrate({
-  params: Joi.object().keys({
-    movieId: Joi.string().hex().length(24),
+  celebrate({
+    params: Joi.object().keys({
+      movieId: Joi.string().hex().length(24),
+    }),
   }),
-}),
-deleteMovieById);
+  deleteMovieById);
 
 module.exports = router;

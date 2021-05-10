@@ -1,8 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+// const cors = require('cors');
 const User = require('../models/user');
-
-const cors = require('cors');
 
 const NotFoundError = require('../errors/not-found-err');
 const DefaultError = require('../errors/default-err');
