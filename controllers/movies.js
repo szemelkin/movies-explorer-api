@@ -63,15 +63,35 @@ function deleteMovieById(req, res, next) {
 }
 
 const createMovie = (req, res, next) => {
-  const { name, link } = req.body;
+  const { 
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    thumbnail,    
+    movieId,
+    nameRU,
+    nameEN
+   } = req.body;
   Movie.create({
-    name,
-    link,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    thumbnail,    
+    movieId,
+    nameRU,
+    nameEN,
     owner: req.user._id,
   }).then((movie) => {
     res.send(movie);
   })
     .catch((err) => {
+      console.log(err)
       let error;
       if (err.name === 'ValidationError') {
         error = new ValidationError('Переданы некорректные данные');

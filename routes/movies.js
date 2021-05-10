@@ -8,7 +8,7 @@ const {
   getMovies,
   deleteMovieById,
   createMovie,
-} = require('../controllers/movie');
+} = require('../controllers/movies');
 
 router.use(auth);
 
@@ -17,8 +17,16 @@ router.get('/', getMovies);
 router.post('/',
   celebrate({
     body: Joi.object().keys({
-      name: Joi.string().min(2).max(30),
-      link: Joi.string(),
+      country: Joi.string().min(2).max(30),
+      director: Joi.string().min(2).max(30),
+      duration: Joi.number(),
+      year:Joi.number(),
+      description:Joi.string().min(2).max(1000),
+      image: Joi.string(),
+      thumbnail: Joi.string(),
+      movieId: Joi.number(),
+      nameRU: Joi.string(),
+      nameEN: Joi.string(),
     }),
   }),
   createMovie);
@@ -26,7 +34,7 @@ router.post('/',
 router.delete('/:movieId',
 celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string().hex().length(24),
+    movieId: Joi.string().hex().length(24),
   }),
 }),
 deleteMovieById);

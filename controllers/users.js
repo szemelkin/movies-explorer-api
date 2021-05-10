@@ -167,51 +167,6 @@ const renewUser = (req, res, next) => {
     });
 };
 
-const createUser = (req, res, next) => {
-  const {
-    name,
-    email,
-    password,
-  } = req.body;
-  if (!email || !password) {
-    return next(new ValidationError('Email или пароль не могут быть пустыми'));
-  }
-  User.findOne(
-    { email },
-  )
-    .then((user) => {
-      if (user) {
-        return next(new AlreadyExist('Пользователь уже существует'));
-      }
-      bcrypt.hash(password, 10)
-        .then((hash) => {
-          User.create({
-            name,
-            email,
-            password: hash,
-          })
-            .then((userWithHash) => {
-              User.findById(userWithHash._id)
-                .then((userWithoutHash) => {
-                  res.send(userWithoutHash);
-                });
-            })
-            .catch((err) => {
-              let error;
-              if (err.name === 'ValidationError') {
-                error = new ValidationError('Не валидный _id');
-              } else {
-                error = new DefaultError('Ошибка по умолчанию');
-              }
-              next(error);
-            });
-        });
-      return undefined;
-    });
-  return undefined;
-};
-
-
 module.exports = {
   getUsers,
   createUser,

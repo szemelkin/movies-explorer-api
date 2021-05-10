@@ -1,17 +1,22 @@
 module.exports = {
-    env: {
-      browser: true,
-      commonjs: true,
-      es2021: true,
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  extends: [
+    'plugin:react/recommended',
+    'airbnb',
+  ],
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
     },
-    extends: [
-      'airbnb-base',
-    ],
-    parserOptions: {
-      ecmaVersion: 12,
-    },
-    rules: {
-      'no-underscore-dangle': ['off', { allow: ['id'] }],
-    },
-  };
-  
+    ecmaVersion: 12,
+  },
+  plugins: [
+    'react',
+  ],
+  rules: {
+    'no-underscore-dangle': ['off', { allow: ['_id'] }],
+  },
+};
