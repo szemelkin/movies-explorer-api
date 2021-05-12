@@ -2,6 +2,7 @@ const Movie = require('../models/movie');
 const NotFoundError = require('../errors/not-found-err');
 const DefaultError = require('../errors/default-err');
 const ValidationError = require('../errors/validation-err');
+const ForbiddenError = require('../errors/forbidden-err');
 
 const getMovies = (req, res, next) => {
   Movie.find({})
@@ -13,8 +14,6 @@ const getMovies = (req, res, next) => {
       let error;
       if (err.name === 'CastError') {
         error = new ValidationError('Переданы некорректные данные');
-      } else {
-        error = new DefaultError('Ошибка по умолчанию');
       }
       next(error);
     });
@@ -27,7 +26,7 @@ function deleteMovieById(req, res, next) {
     .orFail()
     .then((movie) => {
       if (movie.owner.toString() === req.user._id) {
-        Movie.findByIdAndRemove(movieId)
+        return Movie.findByIdAndRemove(movieId)
           .orFail()
           .then((movieWithHash) => {
             res.send(movieWithHash);
@@ -43,10 +42,8 @@ function deleteMovieById(req, res, next) {
             }
             next(error2);
           });
-      } else {
-        return next(new NotFoundError('Можно удалять только свои карточки'));
       }
-      return undefined;
+      return next(new ForbiddenError('Можно удалять только свои карточки'));
     })
     .catch((err) => {
       let error;
@@ -69,6 +66,7 @@ const createMovie = (req, res, next) => {
     year,
     description,
     image,
+    trailer,
     thumbnail,
     movieId,
     nameRU,
@@ -81,6 +79,7 @@ const createMovie = (req, res, next) => {
     year,
     description,
     image,
+    trailer,
     thumbnail,
     movieId,
     nameRU,
@@ -90,7 +89,6 @@ const createMovie = (req, res, next) => {
     res.send(movie);
   })
     .catch((err) => {
-      console.log(err);
       let error;
       if (err.name === 'ValidationError') {
         error = new ValidationError('Переданы некорректные данные');

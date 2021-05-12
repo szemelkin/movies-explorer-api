@@ -15,12 +15,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     minlength: 2,
     select: false,
+    required: true,
   },
   name: {
     type: String,
     minlength: 2,
     maxlength: 30,
-    default: 'Сергей Земелькин',
+    required: true,
   },
 
 });

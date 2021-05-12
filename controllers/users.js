@@ -91,8 +91,6 @@ const login = (req, res, next) => {
 const createUser = (req, res, next) => {
   const {
     name,
-    about,
-    avatar,
     email,
     password,
   } = req.body;
@@ -110,8 +108,6 @@ const createUser = (req, res, next) => {
         .then((hash) => {
           User.create({
             name,
-            about,
-            avatar,
             email,
             password: hash,
           })
@@ -124,9 +120,7 @@ const createUser = (req, res, next) => {
             .catch((err) => {
               let error;
               if (err.name === 'ValidationError') {
-                error = new ValidationError('Не валидный _id');
-              } else {
-                error = new DefaultError('Ошибка по умолчанию');
+                error = new ValidationError('Не все обязательные поля введены или введены некорректно');
               }
               next(error);
             });
@@ -137,10 +131,10 @@ const createUser = (req, res, next) => {
 };
 
 const renewUser = (req, res, next) => {
-  const { name, about } = req.body;
+  const { name, email } = req.body;
   User.findByIdAndUpdate(
     req.user._id,
-    { name, about },
+    { name, email },
     {
       new: true,
       runValidators: true,

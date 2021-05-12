@@ -55,6 +55,17 @@ const movieSchema = new mongoose.Schema({
       message: 'Ссылка не верна',
     },
   },
+  trailer: {
+    type: String,
+    required: true,
+    validate: {
+      validator(v) {
+        const regexp = /^(https?:\/\/)([\da-z.-]+)\.([a-z.]{2,6})([/\w\W.-]*)#?$/g;
+        return regexp.test(v);
+      },
+      message: 'Ссылка не верна',
+    },
+  },
   thumbnail: {
     type: String,
     required: true,
