@@ -136,7 +136,7 @@ const renewUser = (req, res, next) => {
     req.user._id,
     { name, email },
     {
-      new: true,
+      new: false,
       runValidators: true,
       upsert: true,
     },
